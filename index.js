@@ -38,8 +38,8 @@ APP.get("/", (req, res, next) => {
     if (err) {
       throw err;
     }
-    console.log(rows);
     res.status(205).send(JSON.stringify(rows));
+    // res.send(JSON.stringify(rows));
     res.end();
   });
 });
@@ -51,6 +51,7 @@ APP.get("/detail/:challengeID", (req, res, next) => {
         SELECT * 
         FROM challenge_detail 
         WHERE parent_id='${id}'
+        ORDER BY date_created DESC
     `;
 
   client.query(query, function(err, { rows }) {
@@ -60,14 +61,14 @@ APP.get("/detail/:challengeID", (req, res, next) => {
     if (rows.length === 0) {
       res.end(JSON.stringify([null]));
     }
-    res.end(JSON.stringify(rows[0]));
+    res.end(JSON.stringify(rows));
   });
 });
 
 APP.post("/detail/:challengeID", (req, res, next) => {
   const { progress: tweet } = req.body;
   const { challengeID: parent_id } = req.params;
-  const data = [parent_id, tweet, +new Date()];
+  const data = [parent_id, tweet, new Date()];
 
   const insert = `INSERT INTO challenge_detail VALUES($1, $2, $3)`;
   client.query(insert, data, function(err) {
@@ -86,7 +87,7 @@ APP.post("/add", (req, res, next) => {
   let { title, hashtag, goal } = req.body;
   hashtag = hashtag.trim();
   hashtag[0] !== "#" && "#" + hashtag;
-  const date = +new Date();
+  const date = new Date();
   const data = [id, title.trim(), hashtag, goal.trim(), date];
 
   const insert = `INSERT INTO challenge VALUES($1, $2, $3, $4, $5)`;
@@ -102,18 +103,18 @@ APP.post("/add", (req, res, next) => {
 
 // SKILLS ROUTE
 APP.get("/skills", (req, res, next) => {
-  client.query("SELECT * FROM skill_list", function(err, rows) {
+  client.query("SELECT * FROM skill_list", function(err, { rows }) {
     if (err) {
       handleError(res, err);
       return;
     }
-    res.end(JSON.stringify(rows[0]));
+    res.end(JSON.stringify(rows));
   });
 });
 
 APP.post("/skills", (req, res, next) => {
   const id = uuidv4();
-  const data = [id, req.body.newSkill.trim(), 1, 0, 0, +new Date()];
+  const data = [id, req.body.newSkill.trim(), 1, 0, 0, new Date()];
 
   const insert = `INSERT INTO skill_list VALUES($1, $2, $3, $4, $5, $6)`;
   client.query(insert, data, function(err) {
@@ -145,7 +146,7 @@ APP.patch("/skills", (req, res, next) => {
 
 APP.delete("/skills", (req, res, next) => {
   const { id } = req.body;
-  client.query(`DELETE FROM skill_list WHERE skill_id = $1`, id, function(err) {
+  client.query(`DELETE FROM skill_list WHERE skill_id = $1`, [id], function(err) {
     if (err) {
       handleError(res, err);
       return;
