@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
-import { ReactComponent as GithubLogo } from "../icons/svg/github.svg";
-import { ReactComponent as CodepenLogo } from "../icons/svg/codepen.svg";
-import { ReactComponent as TwitterLogo } from "../icons/svg/twitter.svg";
-import Wrapper from "../components/Wrapper/Wrapper";
-import Gap from "../components/Gap/Gap";
+import { ReactComponent as GithubLogo } from "../../icons/svg/github.svg";
+import { ReactComponent as CodepenLogo } from "../../icons/svg/codepen.svg";
+import { ReactComponent as TwitterLogo } from "../../icons/svg/twitter.svg";
+import Wrapper from "../Wrapper/Wrapper";
+import Gap from "../Gap/Gap";
 
 interface Props {}
 
@@ -24,9 +24,11 @@ function Footer({}: Props): ReactElement {
             Abraham Anak Agung
           </a>{" "}
           <span className="text-gray-600 block sm:inline">
-            <span role="img" aria-label="copyright">
-              <sup>©️</sup>
-            </span>
+            <sup>
+              <span role="img" aria-label="copyright">
+                ©️
+              </span>
+            </sup>
             {year}
           </span>
         </h4>
