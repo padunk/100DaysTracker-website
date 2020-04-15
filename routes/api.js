@@ -22,7 +22,8 @@ client.connect(err => {
 router.get("/", (req, res, next) => {
   client.query("SELECT * FROM challenge", function(err, { rows }) {
     if (err) {
-      throw err;
+      handleError(res, err);
+      return;
     }
     res.end(JSON.stringify(rows));
   });
@@ -41,6 +42,7 @@ router.get("/detail/:challengeID", (req, res, next) => {
   client.query(query, function(err, { rows }) {
     if (err) {
       handleError(res, err);
+      return;
     }
     if (rows.length === 0) {
       res.end(JSON.stringify([null]));

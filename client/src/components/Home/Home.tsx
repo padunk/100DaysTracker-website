@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Fragment, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
+import axios from "axios";
 
 import { BASE_URL } from "../../base/baseURL";
 import Gap from "../Gap/Gap";
@@ -34,20 +35,16 @@ const Home = (props: Props) => {
   };
 
   useEffect(() => {
-    fetch(BASE_URL)
-      .then(res => res.json())
-      .then(async data => {
+    axios(BASE_URL)
+      .then(async ({ data }) => {
         if (data.length > 0) {
           setServerResponse(responseType[2]);
 
           progress.current = await Promise.all(
-            data.map((d: any) =>
-              getChallengeDetail(BASE_URL!, d.challenge_id)
-            )
+            data.map((d: any) => getChallengeDetail(BASE_URL!, d.challenge_id))
           ).catch(err => {
             throw new Error(err.message);
           });
-          console.log(progress.current)
         } else {
           setServerResponse(responseType[1]);
         }
@@ -78,13 +75,11 @@ const Home = (props: Props) => {
 
   async function getChallengeDetail(url: string, id: string) {
     try {
-      const response = await fetch(`${url}/detail/${id}`).then(res =>
-        res.json()
-      );
-      if (response[0] === null) {
-        response.shift();
+      const { data } = await axios(`${url}/detail/${id}`);
+      if (data[0] === null) {
+        data.shift();
       }
-      return response.length;
+      return data.length;
     } catch (error) {
       console.log(error);
       return;

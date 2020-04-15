@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
-const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const routes = require("./routes/api");
@@ -12,7 +11,6 @@ const port = process.env.PORT || 5000;
 
 APP.use(express.json());
 APP.use(bodyParser.urlencoded({ extended: false }));
-APP.use(cors());
 
 if (process.env.NODE_ENV === "production") {
   APP.use(express.static(path.join(__dirname, "client/build")));
