@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment, useRef } from "react";
-import { Flipper, Flipped } from "react-flip-toolkit";
 
 import AddSkill from "../AddSkill/AddSkill";
 import Gap from "../Gap/Gap";
@@ -76,7 +75,7 @@ const Skills = (props: Props) => {
           refreshContent.current = setTimeout(() => {
             setMessage("");
             getAllSkills(BASE_URL!);
-          }, 3000);
+          }, 1000);
         })
         .catch(error => {
           setMessage(error.message);
@@ -179,29 +178,16 @@ const Skills = (props: Props) => {
       <Gap className="h-2" />
       <ServerStatusText message={message} status={status} />
       <Wrapper customClass="md:flex max-w-3xl mx-auto">
-        <Flipper
-          flipKey={allSkills
-            .map(skill => {
-              return Object.keys(skill)
-                .map(detail => detail)
-                .join("");
-            })
-            .join("")}
-          debug={true}
-        >
-          {allSkills.length > 0 &&
-            cardGroups.map((group, idx) => (
-              <Flipped flipId={group.name} key={group.name}>
-                <SkillCard
-                  key={group.name}
-                  id={idx + 1}
-                  handleClick={handleClick}
-                  title={group.name}
-                  skills={allSkills.filter(skill => skill[group.data] === 1)}
-                />
-              </Flipped>
-            ))}
-        </Flipper>
+        {allSkills.length > 0 &&
+          cardGroups.map((group, idx) => (
+            <SkillCard
+              key={group.name}
+              id={idx + 1}
+              handleClick={handleClick}
+              title={group.name}
+              skills={allSkills.filter(skill => skill[group.data] === 1)}
+            />
+          ))}
       </Wrapper>
     </Fragment>
   );
