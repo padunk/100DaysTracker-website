@@ -38,9 +38,7 @@ APP.get("/", (req, res, next) => {
     if (err) {
       throw err;
     }
-    res.status(205).send(JSON.stringify(rows));
-    // res.send(JSON.stringify(rows));
-    res.end();
+    res.end(JSON.stringify(rows));
   });
 });
 
