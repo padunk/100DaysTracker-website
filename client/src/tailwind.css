@@ -1,0 +1,55 @@
+/* purgecss start ignore */
+@tailwind base;
+
+body {
+  @apply text-gray-900;
+  font-family: "Rambla", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Rosario", sans-serif;
+}
+
+
+@tailwind components;
+
+.btn:hover {
+  @apply .opacity-75  transform -translate-y-px shadow-md transition duration-300;
+}
+.hover-nav:hover {
+  @apply transform opacity-100 -translate-y-1 scale-110 transition duration-300 ease-in-out;
+}
+.first-line-bold::first-line {
+  @apply font-bold;
+}
+.card:hover {
+  @apply shadow-lg transition duration-300;
+}
+
+/* purgecss end ignore */
+
+@tailwind utilities;
+
+.pli-center {
+  place-items: center;
+}
+.pli-start {
+  place-items: start;
+}
+.pli-end {
+  place-items: end;
+}
+.active-opacity {
+  opacity: 1;
+}
+.border-loading {
+  border-top-color: #1a202c;
+  border-right-color: #4a5568;
+  border-bottom-color: #4a5568;
+  border-left-color: #4a5568;
+}
