@@ -34,39 +34,29 @@ const Home = (props: Props) => {
   };
 
   useEffect(() => {
-    async function getAllChallenges(url: string) {
-      const response: any = await fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          if (data.length === 0) {
-            setServerResponse(responseType[1]);
-          } else {
-            setServerResponse(responseType[2]);
-            setChallengeList(data);
-          }
-          return data;
-        })
-        .catch(err => {
-          if (err) {
-            setServerResponse(responseType[3]);
-            throw new Error(err.message);
-          }
-        });
+    fetch(BASE_URL!)
+      .then(res => res.json())
+      .then(async data => {
+        if (data.length > 0) {
+          setServerResponse(responseType[2]);
 
-      if (response.length > 0) {
-        progress.current = await Promise.all(
-          response.map((r: any) =>
-            getChallengeDetail(BASE_URL!, r.challenge_id)
-          )
-        ).catch(err => {
-          if (err) {
+          progress.current = await Promise.all(
+            data.map((d: any) =>
+              getChallengeDetail(BASE_URL!, d.challenge_id)
+            )
+          ).catch(err => {
             throw new Error(err.message);
-          }
-        });
-      }
-    }
-
-    getAllChallenges(BASE_URL!);
+          });
+          console.log(progress.current)
+        } else {
+          setServerResponse(responseType[1]);
+        }
+        setChallengeList(data);
+      })
+      .catch(err => {
+        setServerResponse(responseType[3]);
+        console.error(err);
+      });
   }, []);
 
   // GSAP ANIMATION
@@ -102,7 +92,12 @@ const Home = (props: Props) => {
   }
 
   if (serverResponse === responseType[3]) {
-    return <div>ERROR</div>;
+    return (
+      <div className="text-center text-red-400 text-2xl">
+        <p>SERVER ERROR</p>
+        <p>PLEASE TRY AGAIN LATER.</p>
+      </div>
+    );
   } else if (serverResponse === responseType[0]) {
     return (
       <Wrapper customClass="container mx-auto">
@@ -117,8 +112,13 @@ const Home = (props: Props) => {
         <Gap className="h-5" />
         <SubTitle subtitle="My Journey to Awesomeness!" emoji="⭐️" />
         <Link to="/add">
-          <h2 className="text-center pt-12 underline">
-            Add your first challenge!
+          <h2 className="text-center pt-12">
+            <span role="img" aria-label="point-right emoji">
+              👉
+            </span>{" "}
+            <span className="underline text-indigo-400">
+              Add your first challenge!
+            </span>
           </h2>
         </Link>
       </Fragment>
@@ -128,8 +128,8 @@ const Home = (props: Props) => {
       <Fragment>
         <Gap className="h-5" />
         <SubTitle subtitle="My Journey to Awesomeness!" emoji="⭐️" />
-        <Wrapper customClass="flex justify-around items-center md:pt-8">
-          <Wrapper customClass="w-1/2">
+        <Wrapper customClass="flex justify-around md:pt-8">
+          <Wrapper customClass="w-full md:w-1/2">
             <SvgUndrawDevFocus className="w-3/4 h-48 mx-auto md:hidden" />
             <Gap className="h-2" />
             <ul className="px-2 max-w-md mx-auto sm:px-6">
@@ -155,7 +155,7 @@ const Home = (props: Props) => {
                           {new Intl.DateTimeFormat(
                             "default",
                             dateOptions
-                          ).format(challenge.date_created)}
+                          ).format(+new Date(`${challenge.date_created}`))}
                         </p>
                       </Wrapper>
                       <p className="capitalize text-gray-900 opacity-75 px-4 pt-2">
