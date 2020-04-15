@@ -11,7 +11,7 @@ interface Props {
 }
 
 const AddDetail = (props: Props) => {
-  const [progress, setProgress] = useState<string>(`\n${props.hashtag}`);
+  const [progress, setProgress] = useState<string>(`\n#${props.hashtag}`);
   let initialText = `Today I'm committing to do`;
   const [twitterHref, setTwitterHref] = useState<string>(
     `https://twitter.com/intent/tweet?hashtags=${props.hashtag.slice(
@@ -46,9 +46,7 @@ const AddDetail = (props: Props) => {
     let { value: text } = event.currentTarget;
     setProgress(text);
     setTwitterHref(
-      `https://twitter.com/intent/tweet?hashtags=${props.hashtag.slice(
-        1
-      )}&text=${encodeURI(text)}`
+      `https://twitter.com/intent/tweet?hashtags=${props.hashtag}&text=${encodeURI(text)}`
     );
   };
 
@@ -76,7 +74,7 @@ const AddDetail = (props: Props) => {
         name="progress"
         id="progress"
         rows={5}
-        maxLength={140}
+        maxLength={280}
         placeholder={progress}
         value={progress}
         onChange={handleChange}
