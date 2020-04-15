@@ -34,7 +34,6 @@ const Home = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log(BASE_URL);
     fetch(BASE_URL!)
       .then(res => res.json())
       .then(async data => {
