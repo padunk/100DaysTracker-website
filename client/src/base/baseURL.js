@@ -1,4 +1,4 @@
 export const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? process.env.DATABASE_URL
+    ? process.env.PORT
     : "http://localhost:5000";
