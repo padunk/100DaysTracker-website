@@ -6,18 +6,18 @@ CREATE DATABASE challenges;
 CREATE TABLE challenge
 (
     challenge_id TEXT PRIMARY KEY NOT NULL,
-    title VARCHAR(20) UNIQUE,
-    hash_tag VARCHAR(30),
-    goal VARCHAR(30),
-    date_created INTEGER
+    title VARCHAR(100) UNIQUE,
+    hash_tag VARCHAR(50),
+    goal VARCHAR(100),
+    date_created TIMESTAMP
 );
 
 -- create table for challenge_detail
 CREATE TABLE challenge_detail
 (
     parent_id TEXT REFERENCES challenge(challenge_id),
-    tweet VARCHAR(140),
-    date_created INTEGER
+    tweet VARCHAR(280),
+    date_created TIMESTAMP
 );
 
 --  create table for skill_list
@@ -28,5 +28,5 @@ CREATE TABLE skill_list
     new_skill INTEGER,
     progress_skill INTEGER,
     complete_skill INTEGER,
-    date_created INTEGER
+    date_created TIMESTAMP
 );
