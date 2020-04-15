@@ -9,8 +9,7 @@
         "prebuild": "cd client && yarn install",
         "build": "cd client && yarn build",
         "heroku-postbuild": "yarn prebuild && yarn build",
-        "dev": "nodemon server.js",
-        "createdb": "cd database && node createDatabase.js"
+        "dev": "nodemon server.js"
     },
     "engines": {
         "node": "12.16.0",
