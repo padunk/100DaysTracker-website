@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import Navigation from "../components/Navigation/Navigation";
-import Footer from "../Footer/Footer";
+import Footer from "../components/Footer/Footer";
 import Wrapper from "../components/Wrapper/Wrapper";
 import Gap from "../components/Gap/Gap";
 
